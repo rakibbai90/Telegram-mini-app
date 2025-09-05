@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Telegram Mini App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      margin-bottom: 15px;
+    }
+    button {
+      padding: 10px 20px;
+      background: #0088cc;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>🚀 My Mini App</h2>
+
+  <div class="card">
+    <h3>💰 Balance: <span id="balance">0</span> USDT</h3>
+    <button onclick="addBalance()">Claim Task Reward</button>
+  </div>
+
+  <div class="card">
+    <h3>👥 Invite Friends</h3>
+    <p>Share your link and earn rewards!</p>
+    <button onclick="shareLink()">Copy Referral Link</button>
+  </div>
+
+  <div class="card">
+    <h3>💵 Withdraw</h3>
+    <button onclick="withdraw()">Request Withdraw</button>
+  </div>
+
+  <script>
+    let tg = window.Telegram.WebApp;
+    tg.expand();
+
+    let balance = 0;
+
+    function addBalance() {
+      balance += 1;
+      document.getElementById("balance").innerText = balance;
+      alert("✅ You earned 1 USDT from task!");
+    }
+
+    function shareLink() {
+      let refLink = `https://t.me/YOUR_BOT_USERNAME?start=${tg.initDataUnsafe.user.id}`;
+      navigator.clipboard.writeText(refLink);
+      alert("Referral link copied: " + refLink);
+    }
+
+    function withdraw() {
+      tg.sendData("withdraw_request");
+      alert("✅ Withdraw request sent to admin!");
+    }
+  </script>
+</body>
+    </html>
