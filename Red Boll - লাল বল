@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>আমার টেলিগ্রাম মিনি অ্যাপ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      margin-bottom: 15px;
+    }
+    button {
+      padding: 10px 20px;
+      background: #0088cc;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>🚀 আমার মিনি অ্যাপ</h2>
+
+  <div class="card">
+    <h3>💰 আপনার ব্যালেন্স: <span id="balance">0</span> টাকা</h3>
+  </div>
+
+  <div class="card">
+    <h3>📋 টাস্ক সিস্টেম</h3>
+    <button onclick="doTask()">✅ টাস্ক সম্পূর্ণ করুন (+২০ টাকা)</button>
+  </div>
+
+  <div class="card">
+    <h3>👥 রেফার ও আয়</h3>
+    <p>প্রতি রেফারে পাবেন ৭০ টাকা</p>
+    <button onclick="addRefer()">👤 রেফার সিমুলেট করুন (+৭০ টাকা)</button><br>
+    <button onclick="shareLink()">🔗 রেফার লিংক কপি করুন</button>
+  </div>
+
+  <div class="card">
+    <h3>💵 উইথড্র</h3>
+    <button onclick="withdraw()">💸 উইথড্র করুন</button>
+  </div>
+
+  <script>
+    let tg = window.Telegram.WebApp;
+    tg.expand();
+
+    let balance = 0;
+
+    function updateBalance() {
+      document.getElementById("balance").innerText = balance;
+    }
+
+    function doTask() {
+      balance += 20; // প্রতি টাস্কে ২০ টাকা
+      updateBalance();
+      alert("✅ টাস্ক সম্পূর্ণ হয়েছে! আপনি পেলেন ২০ টাকা");
+    }
+
+    function addRefer() {
+      balance += 70; // প্রতি রেফারে ৭০ টাকা
+      updateBalance();
+      alert("✅ নতুন রেফার যুক্ত হয়েছে! আপনি পেলেন ৭০ টাকা");
+    }
+
+    function shareLink() {
+      let refLink = `https://t.me/YOUR_BOT_USERNAME?start=${tg.initDataUnsafe.user.id}`;
+      navigator.clipboard.writeText(refLink);
+      alert("🔗 রেফার লিংক কপি হয়েছে: " + refLink);
+    }
+
+    function withdraw() {
+      if (balance >= 1000) {
+        tg.sendData("withdraw_request");
+        alert("✅ উইথড্র রিকুয়েস্ট পাঠানো হয়েছে! (ব্যালেন্স: " + balance + " টাকা)");
+        balance = 0; // উইথড্র হলে ব্যালেন্স রিসেট হবে
+        updateBalance();
+      } else {
+        alert("❌ সর্বনিম্ন উইথড্র ১০০০ টাকা। আপনার বর্তমান ব্যালেন্স: " + balance + " টাকা");
+      }
+    }
+
+    updateBalance();
+  </script>
+</body>
+</html>
